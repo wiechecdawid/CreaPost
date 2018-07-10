@@ -9,7 +9,7 @@ namespace CreaPost.Data
 {
     public class CreaPostDbContext : DbContext
     {
-        private DbContextOptions<CreaPostDbContext> _options;
+        private DbContextOptions _options;
 
         public CreaPostDbContext(DbContextOptions<CreaPostDbContext> options)
             :base(options)
