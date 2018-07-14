@@ -4,14 +4,16 @@ using CreaPost.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CreaPost.Migrations
 {
     [DbContext(typeof(CreaPostDbContext))]
-    partial class CreaPostDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180712201320_AdditionalMigration")]
+    partial class AdditionalMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,16 +29,13 @@ namespace CreaPost.Migrations
 
                     b.Property<int>("Area");
 
-                    b.Property<int>("AuthorId");
+                    b.Property<int?>("AuthorId");
 
                     b.Property<string>("Body");
 
-                    b.Property<string>("ShortDescription")
-                        .HasMaxLength(255);
+                    b.Property<string>("ShortDescription");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                    b.Property<string>("Title");
 
                     b.HasKey("Id");
 
@@ -64,8 +63,7 @@ namespace CreaPost.Migrations
                 {
                     b.HasOne("CreaPost.Models.Author", "Author")
                         .WithMany("Articles")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AuthorId");
                 });
 #pragma warning restore 612, 618
         }

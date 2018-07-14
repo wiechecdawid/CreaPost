@@ -8,18 +8,26 @@
     <tr>
         <th>Title</th>
         <th>Author</th>
+        <th>Descrription</th>
     </tr>
     @foreach(var article in Model.Articles)
     {
     <tr>
         <td>@article.Title</td>
-        <td>@article.Author</td>
+        <td>@article.Author.Name</td>
+        <td>@article.ShortDescription</td>
         <td>
-            <a asp-action="Details" asp-route-id="@article.Id">Read article</a>
+            <a asp-action="ArticleDetails" asp-route-id="@article.Id">Read</a>
+        </td>
+        <td>
+            <a asp-action="DeleteArticle" asp-route-id="@article.Id">Delete</a>
         </td>
     </tr>
     }
 </table>
+<div>
+    <a asp-action="Create">Create new article</a>
+</div>
 
 @section footer
 {

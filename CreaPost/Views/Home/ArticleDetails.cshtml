@@ -1,0 +1,13 @@
+﻿@model Article
+@{
+    ViewBag.Title = "ArticleDetails";
+}
+
+<h4>@Model.Author.Name</h4>
+<h2>@Model.Title</h2>
+<h5>@Model.Area</h5>
+<div>
+    @Model.Body
+</div>
+<a asp-action="Index">Powrót do strony głównej</a>
+

@@ -1,0 +1,33 @@
+﻿@model CreateViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<form method="post">
+    <div>
+        <label asp-for="Author.Name">Author name: </label>
+        <input asp-for="Author.Name" />
+    </div>
+    <div>
+        <label asp-for="Article.Title"></label>
+        <input asp-for="Article.Title" />
+    </div>
+    <div>
+        <label asp-for="Article.Area"></label>
+        <select asp-for="Article.Area"
+                asp-items="@Html.GetEnumSelectList<Area>()">
+
+        </select>
+    </div>
+    <div>
+        <label asp-for="Article.Body">Content:</label>
+        <input type="text" asp-for="Article.Body" />
+    </div>
+    <div>
+        <input type="submit" name="save" value="Save"/>
+    </div>
+    
+</form>
+

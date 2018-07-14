@@ -1,4 +1,5 @@
-﻿using CreaPost.Models;
+﻿using CreaPost.Data.EntitiesConfiguration;
+using CreaPost.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,10 @@ namespace CreaPost.Data
 
         public DbSet<Author> Autors { get; set; }
         public DbSet<Article> Articles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new ArticleConfiguration());
+        }
     }
 }
