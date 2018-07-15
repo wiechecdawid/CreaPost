@@ -46,6 +46,7 @@ namespace CreaPost.Controllers
             if (model == null)
                 return RedirectToAction(nameof(Index));
             model.Author = AuthorRepository.Get(model.AuthorId);
+            model.Body.Replace("&#xD;&#xA;&#xD;&#xA;", Environment.NewLine);
 
             return View(model);
         }
@@ -62,6 +63,7 @@ namespace CreaPost.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(Index));
 
+            model.Article.Body.Replace(Environment.NewLine, "<br />");
             Author author;
             var authorCheck = _context.Autors.FirstOrDefault(a => a.Name == model.Author.Name);
 

@@ -8,8 +8,9 @@ namespace CreaPost.Models
     public enum Area
     {
         none,
+        creativity,
         politics,
-        spots,
+        sports,
         lifestyle,
         food,
         travels
