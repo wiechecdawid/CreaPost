@@ -17,10 +17,10 @@
         <td>@article.Author.Name</td>
         <td>@article.ShortDescription</td>
         <td>
-            <a asp-action="ArticleDetails" asp-route-id="@article.Id">Read</a>
+            <a asp-action="ArticleDetails" asp-route-id="@article.Id" class="btn btn-sm btn-success">Read</a>
         </td>
         <td>
-            <a asp-action="DeleteArticle" asp-route-id="@article.Id">Delete</a>
+            <a asp-action="DeleteArticle" asp-route-id="@article.Id" class="btn btn-sm btn-danger">Delete</a>
         </td>
     </tr>
     }

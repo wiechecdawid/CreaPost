@@ -7,7 +7,7 @@
 <h2>@Model.Title</h2>
 <h5>@Model.Area</h5>
 <div>
-    @Model.Body
+    @Html.Raw(System.Web.HttpUtility.HtmlEncode(Model.Body).Replace(Environment.NewLine, "<br />"));
 </div>
 <a asp-action="Index">Powrót do strony głównej</a>
 

@@ -294,6 +294,7 @@ input[type="month"] {
 }
 
 textarea {
+  width: 750px;
   overflow: auto;
   resize: vertical;
 }
@@ -2312,6 +2313,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 }
 
 .btn {
+    color: white;
   display: inline-block;
   font-weight: 400;
   text-align: center;
@@ -3922,6 +3924,8 @@ input[type="button"].btn-block {
 }
 
 .navbar {
+  top: 0;
+  background-color: #606060;
   position: relative;
   display: -ms-flexbox;
   display: flex;
@@ -3947,11 +3951,13 @@ input[type="button"].btn-block {
 }
 
 .navbar-brand {
+    color: #dddddd;
   display: inline-block;
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
   margin-right: 1rem;
-  font-size: 1.25rem;
+  font-size: 40px;
+  font-family: 'Yu Gothic';
   line-height: inherit;
   white-space: nowrap;
 }
@@ -3961,8 +3967,7 @@ input[type="button"].btn-block {
 }
 
 .navbar-nav {
-  display: -ms-flexbox;
-  display: flex;
+  display: inline-flex;
   -ms-flex-direction: column;
   flex-direction: column;
   padding-left: 0;
@@ -4280,6 +4285,10 @@ input[type="button"].btn-block {
 
 .navbar-light .navbar-text a:hover, .navbar-light .navbar-text a:focus {
   color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-dark {
+    background-color: #343a40;
 }
 
 .navbar-dark .navbar-brand {

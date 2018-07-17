@@ -4,15 +4,33 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <link type="text/css" href="~/css/bootstrap.css" rel="stylesheet" />
+    <title>CreaPost: @ViewBag.Title</title>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/lib/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-    <div>
-        @RenderBody()
+    <nav class="navbar navbar-expand-xl navbar-darkcolored">
+        <header class="container">
+            <div class="navbar-brand">CreaPost</div>
+            <menu>
+                <ul class="nav navbar-nav">
+                    <li><a asp-action="Index" class="btn">Home</a></li>
+                    <li><a href="#" class="btn">Search</a></li>
+                    <li><a asp-action="About" class="btn">About</a></li>
+                </ul>
+            </menu>
+        </header>
+    </nav>
+    <div class="container">
+        <div>
+            @RenderBody()
+        </div>
     </div>
-    <footer>
+    <footer class="container">
         @RenderSection("footer", required: false)
     </footer>
+    <script src="~/lib/js/bootstrap.js"></script>
+    <script src="~/lib/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/site.js"></script>
 </body>
 </html>

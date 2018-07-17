@@ -1,0 +1,30 @@
+﻿body {
+    padding-top:50px;
+    padding-bottom:50px;
+}
+
+td {
+    padding: 5px;
+}
+
+.navbar-darkcolored {
+    background-color: #606060;
+    top: 0;
+}
+
+.navbar-nav > li {
+    color: #dddddd;
+    border-right: 2px dashed;
+    padding: 10px;
+}
+
+.navbar-nav > li:first-child {
+    border-left: 2px dashed;
+    }
+
+.sticky {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
