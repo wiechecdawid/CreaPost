@@ -8,9 +8,10 @@ namespace CreaPost.Controllers
 {
     public class AboutController : Controller
     {
-        public IActionResult Index()
+        [Route("/About/Index")]
+        public IActionResult About()
         {
-            return View("Index");
+            return View();
         }
     }
 }

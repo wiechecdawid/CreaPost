@@ -29,7 +29,7 @@ namespace CreaPost.Controllers
         public IActionResult Index()
         {
             var model = new HomeIndexViewModel();
-            model.Articles = ArticleRepository.GetAll();
+            model.Articles = ArticleRepository.GetRecentArticles();
             model.Owner = Owner;
 
             foreach (var article in model.Articles)

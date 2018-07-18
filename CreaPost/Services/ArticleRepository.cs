@@ -17,7 +17,12 @@ namespace CreaPost.Services
        
         public IEnumerable<Article> GetArticlesByAuthor(Author author)
         {
-            throw new NotImplementedException();
+            return this.context.Articles.Where(a => a.Author == author);
+        }
+
+        public IEnumerable<Article> GetRecentArticles()
+        {
+            return this.context.Articles.OrderByDescending(a => a.Id).Take(10).ToList();
         }
     }
 }

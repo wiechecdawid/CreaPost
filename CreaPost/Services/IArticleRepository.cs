@@ -9,5 +9,6 @@ namespace CreaPost.Services
     public interface IArticleRepository : IRepository<Article>
     {
         IEnumerable<Article> GetArticlesByAuthor(Author author);
+        IEnumerable<Article> GetRecentArticles();
     }
 }
