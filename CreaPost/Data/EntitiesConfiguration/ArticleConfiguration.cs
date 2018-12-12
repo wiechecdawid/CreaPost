@@ -20,7 +20,8 @@ namespace CreaPost.Data.EntitiesConfiguration
                 .WithMany(a => a.Articles)
                 .HasForeignKey(a => a.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade);
-
         }
+
+
     }
 }

@@ -2,6 +2,7 @@
 using CreaPost.Models;
 using CreaPost.Services;
 using CreaPost.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CreaPost.Controllers
 {
-    public class HomeController : Controller 
+    public class HomeController : Controller
     {
         private CreaPostDbContext _context;
 
@@ -28,9 +29,11 @@ namespace CreaPost.Controllers
 
         public IActionResult Index()
         {
-            var model = new HomeIndexViewModel();
-            model.Articles = ArticleRepository.GetRecentArticles();
-            model.Owner = Owner;
+            var model = new HomeIndexViewModel
+            {
+                Articles = ArticleRepository.GetRecentArticles(),
+                Owner = Owner
+            };
 
             foreach (var article in model.Articles)
             {
@@ -39,7 +42,7 @@ namespace CreaPost.Controllers
 
             return View(model);
         }
-        
+
         public IActionResult ArticleDetails(int id)
         {
             var model = ArticleRepository.Get(id);
@@ -50,6 +53,22 @@ namespace CreaPost.Controllers
             return View(model);
         }
 
+        public IActionResult AuthorDetails(int id)
+        {
+            var model = new AuthorDetailViewModel
+            {
+                Author = AuthorRepository.Get(id),
+                Articles = ArticleRepository.GetAll().ToList()
+                            .Where(a => a.AuthorId == id)
+            };
+
+            if (model == null)
+                return RedirectToAction(nameof(Index));
+
+            return View(model);
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
@@ -63,7 +82,7 @@ namespace CreaPost.Controllers
                 return RedirectToAction(nameof(Index));
             
             Author author;
-            var authorCheck = _context.Autors.FirstOrDefault(a => a.Name == model.Author.Name);
+            var authorCheck = _context.Authors.FirstOrDefault(a => a.Name == model.Author.Name);
 
             if (authorCheck != null)
             {
@@ -78,7 +97,7 @@ namespace CreaPost.Controllers
                 };
 
                 author.Articles.ToList().Add(model.Article);
-                _context.Autors.ToList().Add(author);
+                _context.Authors.ToList().Add(author);
                 _context.SaveChanges();
             }
 
@@ -102,11 +121,7 @@ namespace CreaPost.Controllers
         {
             var removal = ArticleRepository.Get(id);
             _context.Articles.Remove(removal);
-
-            //var authorId = removal.Author.Id;
-            //var author = AuthorRepository.Get(authorId);
-            //author.Articles.ToList().Remove(removal);
-
+            
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));

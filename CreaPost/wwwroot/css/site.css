@@ -1,30 +1,42 @@
-﻿body {
-    padding-top:50px;
-    padding-bottom:50px;
-}
-
+﻿
 td {
     padding: 5px;
 }
 
-.navbar-darkcolored {
+.my-own-navbar {
+    padding: 0;
+    margin: 0;
+    height: 200px;
     background-color: #606060;
     top: 0;
+    position: sticky;
 }
-
-.navbar-nav > li {
-    color: #dddddd;
-    border-right: 2px dashed;
-    padding: 10px;
+.my-list {
+    display: inline-grid;
+    list-style-type: none;
 }
-
-.navbar-nav > li:first-child {
-    border-left: 2px dashed;
-    }
 
 .sticky {
     width: 100%;
     position: fixed;
     left: 0;
     top: 0;
+}
+.dropdown {
+    position: relative;
+    display: inline-grid;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }

@@ -1,0 +1,22 @@
+﻿@model AuthorDetailViewModel
+@{
+    ViewBag.Title = "AuthorDetails";
+}
+
+<h2>@Model.Author.Name</h2>
+
+<div>
+    <table>
+        <tr>
+            <th>Articles by @Model.Author.Name : </th>
+        </tr>
+
+        @foreach (var article in Model.Articles)
+        {
+            <tr>
+                <td><a asp-action="ArticleDetails" asp-route-id="@article.Id">@article.Title</a></td>
+            </tr>
+        }
+    </table>
+</div>
+

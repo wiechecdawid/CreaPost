@@ -17,12 +17,12 @@ namespace CreaPost.Services
 
         public Author GetAuthorWithArticles(int id)
         {
-            return this.context.Autors.Include(a => a.Articles).SingleOrDefault(a => a.Id == id);
+            return this.context.Authors.Include(a => a.Articles).SingleOrDefault(a => a.Id == id);
         }
 
         public override Author Get(int id)
         {
-            return this.context.Autors.FirstOrDefault(a => a.Id == id);
+            return this.context.Authors.FirstOrDefault(a => a.Id == id);
         }
     }
 }

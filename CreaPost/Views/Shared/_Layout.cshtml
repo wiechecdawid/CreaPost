@@ -6,19 +6,25 @@
     <meta name="viewport" content="width=device-width" />
     <title>CreaPost: @ViewBag.Title</title>
     <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/lib/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-xl navbar-darkcolored">
-        <header class="container">
-            <div class="navbar-brand">CreaPost</div>
+    <nav>
+        <header>
+            <div>CreaPost</div>
             <menu>
-                <ul class="nav navbar-nav">
-                    <li><a asp-controller="Home" asp-action="Index" class="btn">Home</a></li>
-                    <li><a href="#" class="btn">Search</a></li>
-                    <li><a asp-controller="About" asp-action="About" class="btn">About</a></li>
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index" class="btn" style="color:black">Home</a></li>
+                    <li><a>Search</a>
+                        <ul>
+                            <li><a asp-controller="Search" asp-action="Authors">Authors</a></li>
+                            <li><a asp-controller="Search" asp-action="Articles">Articles</a></li>
+                        </ul>
+                    </li>
+                    <li><a asp-controller="About" asp-action="About" class="btn" style="color:black">About</a></li>
                 </ul>
             </menu>
+            <div></div>
         </header>
     </nav>
     <div class="container">
@@ -26,8 +32,10 @@
             @RenderBody()
         </div>
     </div>
-    <footer class="container">
-        @RenderSection("footer", required: false)
+    <footer class="container" style="margin-top:40px;">
+        <b>
+            @RenderSection("footer", required: false)
+        </b>
     </footer>
     <script src="~/lib/js/bootstrap.js"></script>
     <script src="~/lib/js/jquery-3.3.1.min.js"></script>

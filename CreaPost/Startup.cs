@@ -8,6 +8,7 @@ using CreaPost.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,11 @@ namespace CreaPost
             services.AddDbContext<CreaPostDbContext>(options => options
                     .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
+            services.AddIdentity<IdentityUser, IdentityRole>(configuration =>
+            {
+                configuration.User.RequireUniqueEmail = true;
+            })
+                .AddEntityFrameworkStores<CreaPostDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,13 +52,15 @@ namespace CreaPost
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();   
+            app.UseStaticFiles();
+            app.UseNodeModues(env.ContentRootPath);
             app.UseMvc(ConfigureRoutes);
+            app.UseAuthentication();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+                    app.Run(async (context) =>
+                    {
+                        await context.Response.WriteAsync("hello world!");
+                    });
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)

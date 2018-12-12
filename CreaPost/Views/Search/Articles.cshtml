@@ -1,0 +1,30 @@
+﻿@model IEnumerable<CreaPost.Models.Article>
+@{
+    ViewBag.Title = "Articles";
+}
+
+<h2>Articles</h2>
+
+<div>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Descrription</th>
+        </tr>
+        @foreach (var article in Model)
+        {
+            <tr>
+                <td>@article.Title</td>
+                <td>@article.Author.Name</td>
+                <td>@article.ShortDescription</td>
+                <td>
+                    <a asp-controller="Home" asp-action="ArticleDetails" asp-route-id="@article.Id" class="btn btn-sm btn-success">Read</a>
+                </td>
+                <td>
+                    <a asp-action="DeleteArticle" asp-route-id="@article.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
