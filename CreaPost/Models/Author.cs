@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,20 +16,13 @@ namespace CreaPost.Models
         {
             Articles = new HashSet<Article>();
         }
-
-        private string _name;
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = User.FirstName + " " + User.LastName;
-            } }
+        [Required]
+        public string Name { get; set; }
         public DateTime RegisterDate { get; set; }
-        public StoreUser User { get; set; }
+        //public virtual StoreUser User { get; set; }
         public virtual IEnumerable<Article> Articles { get; set; }
     }
 }

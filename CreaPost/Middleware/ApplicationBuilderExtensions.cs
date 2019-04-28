@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Builder
             var options = new StaticFileOptions();
             options.RequestPath = "/node_modules";
 
-            var fileProider = new PhysicalFileProvider(path);
+            PhysicalFileProvider fileProider = new PhysicalFileProvider(path);
 
             app.UseStaticFiles(options);
 

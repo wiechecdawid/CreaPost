@@ -8,15 +8,14 @@
 <div>
     <table>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Descrription</th>
+            <th>Name:</th>
+            @*<th>Author</th>
+            <th>Descrription</th>*@
         </tr>
         @foreach (var author in Model)
         {
             <tr>
                 <td><a asp-controller="Home" asp-action="AuthorDetails" asp-route-id="@author.Id">@author.Name</a></td>
-                
             </tr>
         }
     </table>

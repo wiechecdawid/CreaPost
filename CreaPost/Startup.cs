@@ -35,6 +35,7 @@ namespace CreaPost
             services.AddDbContext<CreaPostDbContext>(options => options
                     .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
+            services.AddTransient<CreaPostSeeder>();
             services.AddIdentity<IdentityUser, IdentityRole>(configuration =>
             {
                 configuration.User.RequireUniqueEmail = true;
