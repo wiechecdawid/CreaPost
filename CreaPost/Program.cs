@@ -23,10 +23,10 @@ namespace CreaPost
 
             host.Run();
         }
-        /*
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>(); */
+
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseStartup<Startup>();
 
         public static void SeedDb(IWebHost host)
         {
@@ -35,16 +35,16 @@ namespace CreaPost
             using (var scope = scopeFactory.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetService<CreaPostSeeder>();
-                seeder.Seed();
+                seeder.SeedAsync().Wait();
             }
-                
+
         }
-        
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                        .ConfigureAppConfiguration(SetupConfiguration)
-                    .UseStartup<Startup>()
-                    .Build();
+
+            public static IWebHost BuildWebHost(string[] args) =>
+                WebHost.CreateDefaultBuilder(args)
+                            .ConfigureAppConfiguration(SetupConfiguration)
+                        .UseStartup<Startup>()
+                        .Build();
 
         public static void SetupConfiguration(WebHostBuilderContext context, IConfigurationBuilder configurationBuilder)
         {

@@ -19,6 +19,9 @@ namespace CreaPost.Models
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
         public virtual Author Author { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual StoreUser User { get; set; }
         public Area Area { get; set; }
     }
 }

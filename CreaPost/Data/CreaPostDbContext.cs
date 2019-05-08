@@ -28,9 +28,9 @@ namespace CreaPost.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new ArticleConfiguration());
 
-            //modelBuilder.Entity<StoreUser>()
-            //    .HasOne(s => s.Author)
-            //    .WithOne(a => a.User);
+            modelBuilder.Entity<StoreUser>()
+                .HasMany(s => s.Articles)
+                .WithOne(a => a.User);
         }
     }
 }

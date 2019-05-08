@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CreaPost.Data;
 using CreaPost.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 
 namespace CreaPost.Data
 {
@@ -11,18 +13,39 @@ namespace CreaPost.Data
     {
         private readonly CreaPostDbContext _context;
         private readonly IHostingEnvironment _env;
+        private readonly UserManager<StoreUser> _userManager;
 
-        public CreaPostSeeder(CreaPostDbContext context, IHostingEnvironment env)
+        public CreaPostSeeder(CreaPostDbContext context, IHostingEnvironment env, UserManager<StoreUser> manager)
         {
             _context = context;
             _env = env;
+            _userManager = manager;
         }
 
-        public void Seed()
+        public async Task SeedAsync()
         {
             _context.Database.EnsureCreated();
 
-            if(!_context.Authors.Any())
+            StoreUser user = await _userManager.FindByEmailAsync("wiechec.dawid@gmail.com");
+            if (user == null)
+            {
+                user = new StoreUser()
+                {
+                    FirstName = "Dawid",
+                    LastName = "Wiecheć",
+                    UserName = "wiechec.dawid@gmail.com",
+                    Email = "wiechec.dawid@gmail.com"
+                };
+
+                var result = await _userManager.CreateAsync(user, "P@ssvv0rd!");
+                if (result != IdentityResult.Success)
+                {
+                    new InvalidOperationException("Could not create new user in seeder");
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            if (!_context.Authors.Any())
             {
                 var authors = new List<Author>()
                 {
@@ -52,27 +75,22 @@ namespace CreaPost.Data
                     {
                         AuthorId = _context.Authors.First().Id,
                         Title="Ale to już było",
-                        Body="Ale to już było"+Environment.NewLine+"I nie wróci więcej"
+                        Body="Ale to już było"+Environment.NewLine+"I nie wróci więcej",
+                        //User = user
                     },
                     new Article()
                     {
                         AuthorId = _context.Authors.First().Id,
                         Title="Piękny cyganie",
-                        Body="Mój piękny cyganie..."
+                        Body="Mój piękny cyganie...",
+                        //User = user
                     }
                 };
 
                 _context.Articles.AddRange(articles);
 
                 _context.SaveChanges();
-            }
-
-            
-
-            if (!_context.StoreUsers.Any())
-            {
-
-            }
+            }                        
         }
     }
 }

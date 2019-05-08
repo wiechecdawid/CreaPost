@@ -11,6 +11,7 @@ namespace CreaPost.Data.EntitiesConfiguration
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Article> builder)
         {
+            builder.HasKey(a => a.Id);
             builder.Property(a => a.ShortDescription)
                 .HasMaxLength(255);
             builder.Property(a => a.Title)

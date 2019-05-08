@@ -4,14 +4,16 @@ using CreaPost.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CreaPost.Migrations
 {
     [DbContext(typeof(CreaPostDbContext))]
-    partial class CreaPostDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190428130227_IdentityMigration")]
+    partial class IdentityMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +74,8 @@ namespace CreaPost.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<int>("AuthorId");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -108,6 +112,8 @@ namespace CreaPost.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -238,8 +244,16 @@ namespace CreaPost.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CreaPost.Models.StoreUser", "User")
-                        .WithMany("Articles")
+                        .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("CreaPost.Models.StoreUser", b =>
+                {
+                    b.HasOne("CreaPost.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

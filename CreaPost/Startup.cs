@@ -36,7 +36,7 @@ namespace CreaPost
                     .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
             services.AddTransient<CreaPostSeeder>();
-            services.AddIdentity<IdentityUser, IdentityRole>(configuration =>
+            services.AddIdentity<StoreUser, IdentityRole>(configuration =>
             {
                 configuration.User.RequireUniqueEmail = true;
             })
@@ -45,8 +45,7 @@ namespace CreaPost
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
-                                ILogger<Startup> logger, IOwner owner, 
-                                IArticleRepository articleRepository, IAuthorRepository authorRepository)
+                                ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -55,13 +54,14 @@ namespace CreaPost
 
             app.UseStaticFiles();
             app.UseNodeModues(env.ContentRootPath);
-            app.UseMvc(ConfigureRoutes);
             app.UseAuthentication();
+            app.UseMvc(ConfigureRoutes);
+            
+                    //app.Run(async (ctx) =>
+                    //{
+                    //    await ctx.Response.WriteAsync("hello world!");
+                    //});
 
-                    app.Run(async (context) =>
-                    {
-                        await context.Response.WriteAsync("hello world!");
-                    });
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)

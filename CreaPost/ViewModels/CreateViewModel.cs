@@ -9,6 +9,6 @@ namespace CreaPost.ViewModels
     public class CreateViewModel
     {
         public Author Author { get; set; }
-        public Article Article { get; set; }
+        public Article Article { get; set; }        
     }
 }
