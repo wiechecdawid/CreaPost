@@ -32,6 +32,7 @@ namespace CreaPost
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddSingleton<IOwner, Owner>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<CreaPostDbContext>(options => options
                     .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();

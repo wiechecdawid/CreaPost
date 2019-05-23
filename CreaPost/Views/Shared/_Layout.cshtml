@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width" />
     <title>CreaPost: @ViewBag.Title</title>
     <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
     <nav>
@@ -15,7 +14,8 @@
             <menu>
                 <ul>
                     <li><a asp-controller="Home" asp-action="Index" class="btn" style="color:black">Home</a></li>
-                    <li><a>Search</a>
+                    <li>
+                        <a>Search</a>
                         <ul>
                             <li><a asp-controller="Search" asp-action="Authors">Authors</a></li>
                             <li><a asp-controller="Search" asp-action="Articles">Articles</a></li>
@@ -37,8 +37,9 @@
             @RenderSection("footer", required: false)
         </b>
     </footer>
-    <script src="~/lib/js/bootstrap.js"></script>
-    <script src="~/lib/js/jquery-3.3.1.min.js"></script>
+
+
     <script src="~/js/site.js"></script>
+
 </body>
 </html>

@@ -25,7 +25,7 @@ namespace CreaPost.Controllers
         {
             if(this.User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Create", "Home");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }

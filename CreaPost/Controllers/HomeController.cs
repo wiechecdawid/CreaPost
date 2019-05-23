@@ -3,6 +3,7 @@ using CreaPost.Models;
 using CreaPost.Services;
 using CreaPost.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,15 @@ namespace CreaPost.Controllers
 {
     public class HomeController : Controller
     {
+        private UserManager<StoreUser> _userManager;
         private CreaPostDbContext _context;
+        private SignInManager<StoreUser> _signInManager;
 
-        public HomeController(CreaPostDbContext context)
+        public HomeController(CreaPostDbContext context, SignInManager<StoreUser> signInManager, UserManager<StoreUser> userManager)
         {
             _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
             ArticleRepository = new ArticleRepository(_context);
             Owner = new Owner();
             AuthorRepository = new AuthorRepository(_context);
@@ -70,9 +75,32 @@ namespace CreaPost.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            string authorName;
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var storeUser = _context.StoreUsers.FirstOrDefault(su => su.Id == user.Id);
+
+            if(storeUser.FirstName!=null&&storeUser.LastName!=null)
+            {
+                authorName = storeUser.FirstName + " " + storeUser.LastName;
+            }
+            else
+            {
+                authorName = storeUser.Email;
+            }
+
+            var author = new Author
+            {
+                Name = authorName
+            };
+
+            var model = new CreateViewModel
+            {
+                Author = author
+            };
+            return View(model);
         }
 
         [HttpPost]

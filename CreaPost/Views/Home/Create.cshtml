@@ -9,7 +9,7 @@
     <div>
         <div asp-validation-summary="ModelOnly"></div>
         <label asp-for="Author.Name">Author name: </label>
-        <input asp-for="Author.Name" />
+        <input asp-for="Author.Name" type="text" value="@Model.Author.Name"/>
         <span asp-validation-for="Author.Name"></span>
     </div>
     <div>
