@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using CreaPost.Data;
 using CreaPost.Models;
 using CreaPost.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CreaPost.Controllers
 {
+    [Authorize]
     public class SearchController : Controller
     {
         private CreaPostDbContext _context;
