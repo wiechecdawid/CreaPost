@@ -39,16 +39,21 @@ namespace CreaPost
             services.AddDbContext<CreaPostDbContext>(options => options
                     .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
-            services.AddAuthentication(cfg =>
-            {
-                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+            services.AddLogging();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)                           //(cfg =>
+            //                                                    {
+            //                                                        cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //                                                        cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //                                                    })
                 .AddJwtBearer(cfg => 
                 {
                     cfg.RequireHttpsMetadata = false;
                     cfg.TokenValidationParameters = new TokenValidationParameters()
                     {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+
                         ValidIssuer = _configuration["Tokens:Issuer"],
                         ValidAudience = _configuration["Tokens:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
@@ -65,12 +70,15 @@ namespace CreaPost
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
-                                ILogger<Startup> logger)
+                                ILoggerFactory logger)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            logger.AddConsole(_configuration.GetSection("Logging"));
+            logger.AddDebug();
 
             app.UseStaticFiles();
             app.UseNodeModues(env.ContentRootPath);

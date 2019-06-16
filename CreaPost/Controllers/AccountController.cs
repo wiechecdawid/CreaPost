@@ -72,7 +72,7 @@ namespace CreaPost.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTokenAsync([FromBody] AccountViewModel model)
+        public async Task<IActionResult> CreateToken([FromBody] AccountViewModel model)
         {
             if(ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace CreaPost.Controllers
                         {
                         new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        //new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+                        new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
                         };
 
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
