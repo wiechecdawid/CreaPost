@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,54 +23,38 @@ namespace CreaPost
     public class Startup
     {
         private IConfiguration _configuration;
-        private IHostingEnvironment _env;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _env = env;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAuthenticateService, TokenAuthenticateService>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddSingleton<IOwner, Owner>();
-            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<CreaPostDbContext>(options => options
                     .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
-
-            if (!_env.IsDevelopment())
-                services.Configure<MvcOptions>(options =>
-                options.Filters.Add(new RequireHttpsAttribute()));
-
-            services.Configure<TokenManagement>(_configuration.GetSection("TokenManagement"));
-            var token = _configuration.GetSection("tokenManagement").Get<TokenManagement>();
-            var secret = Encoding.UTF8.GetBytes(token.Secret);
-
             services.AddAuthentication(cfg =>
             {
                 cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                .AddJwtBearer(cfg =>
+                .AddJwtBearer(cfg => 
                 {
                     cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = true;
                     cfg.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidIssuer = token.Issuer, //_configuration["Tokens:Issuer"],
-                        ValidAudience = token.Audience, //_configuration["Tokens:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(secret),
-                        ValidateIssuer = false,
-                        ValidateAudience=false
+                        ValidIssuer = _configuration["Tokens:Issuer"],
+                        ValidAudience = _configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
                     };
-                });
-
-
+                })
+                .AddCookie();
             services.AddTransient<CreaPostSeeder>();
             services.AddIdentity<StoreUser, IdentityRole>(configuration =>
             {
@@ -88,19 +71,9 @@ namespace CreaPost
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseNodeModues(env.ContentRootPath);
-            app.UseCors(cfg =>
-                cfg.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-
             app.UseAuthentication();
             app.UseMvc(ConfigureRoutes);
             
