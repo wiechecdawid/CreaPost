@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CreaPost.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class SearchController : Controller
     {
         private CreaPostDbContext _context;
