@@ -9,6 +9,7 @@ using CreaPost.Models;
 using CreaPost.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +33,42 @@ namespace CreaPost.Controllers
             _userManager = userManager;
             _configuration = configuration;
         }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(AccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new StoreUser
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    UserName = model.Email
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {   
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }                    
+                else
+                {
+                    foreach (var error in result.Errors)
+                        ModelState.AddModelError("error", error.Description);
+                }
+            }
+                    
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Login()
         {

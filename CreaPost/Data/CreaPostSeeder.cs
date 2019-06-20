@@ -82,7 +82,9 @@ namespace CreaPost.Data
                     {
                         AuthorId = _context.Authors.First().Id,
                         Title="Piękny cyganie",
-                        Body="Mój piękny cyganie...",
+                        Body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae eros eget libero sagittis euismod. Suspendisse gravida turpis eu ex faucibus lobortis pharetra vitae dolor. Ut interdum felis nunc. Nulla vitae ligula sit amet magna dictum tempor. Nullam ac libero bibendum, malesuada nisl ut, congue tellus. Sed ligula nunc, vestibulum et tortor eget, sodales fermentum orci. Maecenas fringilla urna a diam faucibus pellentesque et nec lorem. Nam sed aliquet ex, non laoreet mi. Morbi sed diam eget lectus auctor maximus eu ac nibh. Aliquam iaculis tincidunt turpis, ut hendrerit elit venenatis suscipit. Pellentesque ultrices ultrices euismod. Proin at egestas turpis."
+                        +Environment.NewLine+
+                        "Cras cursus scelerisque eleifend. In hac habitasse platea dictumst. Sed quis dignissim purus, eget ornare nulla. Sed nec nulla purus. Nam sed viverra ex. Integer sollicitudin risus in tempus bibendum. Duis magna neque, aliquet at diam eget, mollis pharetra ex. Maecenas non convallis magna. Morbi id finibus eros, vitae fermentum ante. Mauris in justo sed lacus cursus posuere. Donec a sem et justo tempus tristique. Mauris diam diam, auctor eu dapibus vitae, porta a lectus. Nulla facilisi. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam libero nulla, cursus sollicitudin euismod vitae, sodales eu massa.",
                         //User = user
                     }
                 };
