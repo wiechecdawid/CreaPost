@@ -1,0 +1,30 @@
+﻿@model CreaPost.ViewModels.ContactViewModel
+ 
+@{
+    ViewBag.Title = "Contact";
+}
+<h2>Contact</h2>
+
+    <form method="post" asp-controller="Contact" asp-action="Contact">
+        <div asp-validation-summary="ModelOnly"></div>
+            <div>
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" />
+                <span asp-validation-for="Email" class="text-warning"></span>
+            </div>
+            <div>
+                <label asp-for="Subject">Subject</label>
+                <input asp-for="Subject" />
+                <span asp-validation-for="Subject" class="text-warning"></span>
+            </div>
+            <div>
+                <label asp-for="Message">Message</label>
+                <textarea asp-for="Message"></textarea>
+                <span asp-validation-for="Message" class="text-warning"></span>
+            </div>
+            <div>
+                <input class="btn btn-sm btn-primary" type="submit" name="SEND" value="Send" />
+            </div>>
+    </form>
+
+

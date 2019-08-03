@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CreaPost.ViewModels
 {
-    public class AccountViewModel
+    public class RegisterViewModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,6 +15,8 @@ namespace CreaPost.ViewModels
         public string Email { get; set; }
         [Required, DataType(DataType.Password)]
         public string Password { get; set; }
+        [Required, DataType(DataType.Password), Compare(nameof(Password))]
+        public string ConfirmPassword { get; set; }
 
         public bool RememberMe { get; set; }
     }

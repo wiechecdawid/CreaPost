@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using CreaPost.Models;
 using CreaPost.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
@@ -18,30 +20,38 @@ namespace CreaPost.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ILogger<AccountController> _logger;
+        private readonly IEmailSender _sender;
+        private readonly ILoggerFactory _logger;
         private readonly SignInManager<StoreUser> _signInManager;
         private readonly UserManager<StoreUser> _userManager;
         private readonly IConfiguration _configuration;
 
-        public AccountController(ILogger<AccountController> logger, 
+        public AccountController(ILoggerFactory logger, 
                                     SignInManager<StoreUser> signInManager,
                                     UserManager<StoreUser> userManager,
-                                    IConfiguration configuration)
+                                    IConfiguration configuration,
+                                   IEmailSender sender)
         {
+            _sender = sender;
             _logger = logger;
             _signInManager = signInManager;
             _userManager = userManager;
             _configuration = configuration;
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(AccountViewModel model)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            var logger = _logger.CreateLogger("LoggerCategory");
+
             if (ModelState.IsValid)
             {
                 var user = new StoreUser
@@ -55,9 +65,20 @@ namespace CreaPost.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
-                {   
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                {
+                    //await _signInManager.SignInAsync(user, false);
+                    //return RedirectToAction("Index", "Home");
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userEmail = user.Email, code = code }, protocol: Request.Scheme);
+                    var subject = "Crea Post User Confirmation";
+                    var message = "Hello," + Environment.NewLine + "Thank you for registering into our website. We hope you will enjoy your time here"
+                                + Environment.NewLine + "We need one more step to enable your service. Please click on the confirmation link below"
+                                + Environment.NewLine + "<a href=\"" + callbackUrl + "\">LINK<a>";
+
+
+                    await _sender.SendEmailAsync(user.Email.ToString(), subject, message);
+                    return View("DisplayEmail");
                 }                    
                 else
                 {
@@ -66,10 +87,11 @@ namespace CreaPost.Controllers
                 }
             }
                     
-            return View();
+            return View(model);
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             if(this.User.Identity.IsAuthenticated)
@@ -79,6 +101,8 @@ namespace CreaPost.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(AccountViewModel model)
         {
             if(ModelState.IsValid)
@@ -108,7 +132,21 @@ namespace CreaPost.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task<IActionResult> ConfirmEmail(string userEmail, string code)
+        {
+            if(userEmail==null || code==null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            return View();
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateToken([FromBody] AccountViewModel model)
         {
             if(ModelState.IsValid)
