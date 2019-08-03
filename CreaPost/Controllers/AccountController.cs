@@ -142,7 +142,7 @@ namespace CreaPost.Controllers
             var user = await _userManager.FindByEmailAsync(userEmail);
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
