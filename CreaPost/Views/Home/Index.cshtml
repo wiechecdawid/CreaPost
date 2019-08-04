@@ -3,6 +3,10 @@
     ViewBag.Title = "Home page";
 }
 
+@if(TempData["Message"]!=null)
+{
+    @TempData["Message"]
+}
 <h2>Recent Articles</h2>
 <table>
     <tr>

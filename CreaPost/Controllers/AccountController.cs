@@ -142,6 +142,10 @@ namespace CreaPost.Controllers
             var user = await _userManager.FindByEmailAsync(userEmail);
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            string tempMessage = "You have successfully confirmed your email address";
+            TempData["Message"] = tempMessage;
+
             return RedirectToAction("Index", "Home");
         }
 
