@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,14 @@ namespace CreaPost.Controllers
     public class HomeController : Controller
     {
         private UserManager<StoreUser> _userManager;
-        private ILogger _logger;
         private CreaPostDbContext _context;
         private SignInManager<StoreUser> _signInManager;
 
-        public HomeController(CreaPostDbContext context, SignInManager<StoreUser> signInManager, UserManager<StoreUser> userManager, ILogger<HomeController> logger)
+        public HomeController(CreaPostDbContext context, SignInManager<StoreUser> signInManager, UserManager<StoreUser> userManager)
         {
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
-            _logger = logger;
             ArticleRepository = new ArticleRepository(_context);
             Owner = new Owner();
             AuthorRepository = new AuthorRepository(_context);
@@ -37,6 +36,7 @@ namespace CreaPost.Controllers
 
         public IActionResult Index()
         {
+            Log.Information("Page visited at {HH:mm:ss}");
             var model = new HomeIndexViewModel
             {
                 Articles = ArticleRepository.GetRecentArticles(),

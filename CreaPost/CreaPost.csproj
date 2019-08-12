@@ -13,7 +13,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
-    <PackageReference Include="NLog" Version="4.6.5" />
+    <PackageReference Include="serilog" Version="2.8.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="serilog.settings.configuration" Version="3.1.0" />
+    <PackageReference Include="serilog.sinks.console" Version="3.1.1" />
+    <PackageReference Include="serilog.sinks.debug" Version="1.0.1" />
+    <PackageReference Include="serilog.sinks.file" Version="4.0.0" />
     <PackageReference Include="WebEssentials.AspNetCore.PWA" Version="1.0.49" />
     <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>

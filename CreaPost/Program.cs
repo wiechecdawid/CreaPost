@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CreaPost
 {
@@ -42,8 +43,10 @@ namespace CreaPost
 
             public static IWebHost BuildWebHost(string[] args) =>
                 WebHost.CreateDefaultBuilder(args)
-                            .ConfigureAppConfiguration(SetupConfiguration)
+                        .ConfigureAppConfiguration(SetupConfiguration)
                         .UseStartup<Startup>()
+                        .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+                        .ReadFrom.Configuration(hostingContext.Configuration))
                         .Build();
 
         public static void SetupConfiguration(WebHostBuilderContext context, IConfigurationBuilder configurationBuilder)

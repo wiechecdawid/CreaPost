@@ -1,0 +1,2 @@
+13-Aug-2019 01:16:20.892 +02:00 [INF] Page visited at {HH:mm:ss}
+13-Aug-2019 01:16:29.930 +02:00 [INF] Page visited at {HH:mm:ss}
